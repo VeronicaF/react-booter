@@ -6,15 +6,22 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 
 const paths = {
-    HTMLTemplate: path.resolve(__dirname, 'index.html')
+    HTMLTemplate: path.resolve(__dirname, 'index.html'),
+    src: path.resolve(__dirname, 'src'),
 }
 
 
 module.exports = {
-    entry: ['./index.jsx'],
+    entry: ['src/index.jsx'],
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name][hash:8].bundle.js',
+    },
+    resolve: {
+        alias: {
+            src: paths.src,
+        },
+        extensions: ['.jsx', '.js', '.css'],
     },
     mode: 'development',
     module: {

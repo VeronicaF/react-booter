@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactDom from 'react-dom'
 import { hot } from 'react-hot-loader'
+import App from './App'
 import './index.css'
 
-const App = hot(module)(() => (
-    <h1>hello world!</h1>
-))
+@hot(module)
+class Container extends Component {
+    render() {
+        return (
+            <App />
+        )
+    }
+}
+
 
 ReactDom.render(
-    <App />,
-    document.body,
+    <Container />,
+    document.querySelector('#root'),
     () => console.log('react loaded!')
 )
