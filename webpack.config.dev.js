@@ -8,14 +8,17 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const paths = {
     HTMLTemplate: path.resolve(__dirname, 'index.html'),
     src: path.resolve(__dirname, 'src'),
+    dist: path.resolve(__dirname, 'dist'),
 }
 
 
 module.exports = {
     entry: ['src/index.jsx'],
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: '[name][hash:8].bundle.js',
+        path: paths.dist,
+        // publicPath: 'dist/',
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
     },
     resolve: {
         alias: {
@@ -29,22 +32,29 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
             {
                 exclude: /node_modules/,
+                include: paths.src,
                 test: /\.(js|jsx)$/,
-                use: 'babel-loader',
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        cacheDirectory: true,
+                    },
+                }],
             },
             {
                 exclude: /node_modules/,
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader',]
+                include: paths.src,
+                use: ['style-loader', 'css-loader'],
             },
             {
                 exclude: /node_modules/,
                 test: /\.(png|svg|jpg|gif)$/,
-                use: ['file-loader',]
+                use: ['file-loader'],
             },
         ],
     },
@@ -70,5 +80,5 @@ module.exports = {
             },
         }),
     ],
-    devtool: 'inline-source-map',
+    devtool: 'cheap-module-eval-source-map',
 }
